@@ -1,12 +1,20 @@
 using backend.DTOs.Specialties;
-using backend.Services;
+using backend.Applications.Services;
 using Microsoft.AspNetCore.Mvc;
+using backend.Applications.Interfaces;
+using backend.Common;
 
 namespace backend.Controllers;
 
 [Route("api/v1/specialties")]
 public class SpecialtiesController(ISpecialtyService specialtyService) : ApiControllerBase
 {
+    [HttpGet]
+    public async Task<IActionResult> List()
+    {
+        var specialties = await specialtyService.List();
+        return HandleResult(specialties);
+    }
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetById([FromRoute] int id)
     {
@@ -19,7 +27,7 @@ public class SpecialtiesController(ISpecialtyService specialtyService) : ApiCont
     public async Task<IActionResult> Store([FromBody] SpecialtyDto specialtyDto)
     {
         var result = await specialtyService.CreateAsync(specialtyDto);
-        return HandleCreatedResult(result, nameof(GetById), new { id = result.Value?.Id });
+        return HandleCreatedResult(result);
     }
 
     [HttpPut("{id:int}")]

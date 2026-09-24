@@ -1,8 +1,9 @@
+using backend.Applications.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-namespace backend.Services;
+namespace backend.Applications.Services;
 public class JwtService : IJwtService
 {
     private readonly IConfiguration configuration;
@@ -43,7 +44,7 @@ public class JwtService : IJwtService
             issuer: jwtSettings["Issuer"],
             audience: jwtSettings["Audience"],
             claims: claims,
-            expires: DateTime.UtcNow.AddHours(2),
+            expires: DateTime.UtcNow.AddHours(24),
             signingCredentials: credentials
         );
 

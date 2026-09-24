@@ -1,9 +1,9 @@
 using backend.DTOs.Users;
-using backend.Models;
-using backend.Services;
+using backend.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using backend.Applications.Interfaces;
 
 namespace backend.Controllers.Auth;
 

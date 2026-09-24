@@ -22,13 +22,13 @@ public abstract class ApiControllerBase : ControllerBase
         };
     }
 
-    protected IActionResult HandleCreatedResult<T>(Result<T> result, string actionName, object routeValues)
+    protected IActionResult HandleCreatedResult<T>(Result<T> result)
     {
         if (!result.IsSuccess)
         {
             return HandleResult(result);
         }
 
-        return CreatedAtAction(actionName, routeValues, result.Value);
+        return StatusCode(201,result.Value);
     }
 }

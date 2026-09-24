@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using backend.Data;
+using backend.Infrastructure.Data;
 
 #nullable disable
 
@@ -125,7 +125,7 @@ namespace backend.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("backend.Models.AppUser", b =>
+            modelBuilder.Entity("backend.Domain.Entities.AppUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -197,7 +197,7 @@ namespace backend.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("backend.Models.Appointment", b =>
+            modelBuilder.Entity("backend.Domain.Entities.Appointment", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -245,7 +245,7 @@ namespace backend.Migrations
                     b.ToTable("Appointments");
                 });
 
-            modelBuilder.Entity("backend.Models.Consultation", b =>
+            modelBuilder.Entity("backend.Domain.Entities.Consultation", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -286,7 +286,7 @@ namespace backend.Migrations
                     b.ToTable("Consultations");
                 });
 
-            modelBuilder.Entity("backend.Models.Doctor", b =>
+            modelBuilder.Entity("backend.Domain.Entities.Doctor", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -320,7 +320,7 @@ namespace backend.Migrations
                     b.ToTable("Doctors");
                 });
 
-            modelBuilder.Entity("backend.Models.DoctorSchedule", b =>
+            modelBuilder.Entity("backend.Domain.Entities.DoctorSchedule", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -352,7 +352,7 @@ namespace backend.Migrations
                     b.ToTable("DoctorSchedules");
                 });
 
-            modelBuilder.Entity("backend.Models.Invoice", b =>
+            modelBuilder.Entity("backend.Domain.Entities.Invoice", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -399,7 +399,7 @@ namespace backend.Migrations
                     b.ToTable("Invoices");
                 });
 
-            modelBuilder.Entity("backend.Models.InvoiceItem", b =>
+            modelBuilder.Entity("backend.Domain.Entities.InvoiceItem", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -433,7 +433,7 @@ namespace backend.Migrations
                     b.ToTable("InvoiceItems");
                 });
 
-            modelBuilder.Entity("backend.Models.LabRequest", b =>
+            modelBuilder.Entity("backend.Domain.Entities.LabRequest", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -464,7 +464,7 @@ namespace backend.Migrations
                     b.ToTable("LabRequests");
                 });
 
-            modelBuilder.Entity("backend.Models.MedicalAttachment", b =>
+            modelBuilder.Entity("backend.Domain.Entities.MedicalAttachment", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -500,7 +500,7 @@ namespace backend.Migrations
                     b.ToTable("MedicalAttachments");
                 });
 
-            modelBuilder.Entity("backend.Models.Patient", b =>
+            modelBuilder.Entity("backend.Domain.Entities.Patient", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -558,7 +558,7 @@ namespace backend.Migrations
                     b.ToTable("Patients");
                 });
 
-            modelBuilder.Entity("backend.Models.PatientMedicalHistory", b =>
+            modelBuilder.Entity("backend.Domain.Entities.PatientMedicalHistory", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -589,7 +589,7 @@ namespace backend.Migrations
                     b.ToTable("PatientMedicalHistories");
                 });
 
-            modelBuilder.Entity("backend.Models.PatientVital", b =>
+            modelBuilder.Entity("backend.Domain.Entities.PatientVital", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -627,7 +627,7 @@ namespace backend.Migrations
                     b.ToTable("PatientVitals");
                 });
 
-            modelBuilder.Entity("backend.Models.Payment", b =>
+            modelBuilder.Entity("backend.Domain.Entities.Payment", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -661,7 +661,7 @@ namespace backend.Migrations
                     b.ToTable("Payments");
                 });
 
-            modelBuilder.Entity("backend.Models.Prescription", b =>
+            modelBuilder.Entity("backend.Domain.Entities.Prescription", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -685,7 +685,7 @@ namespace backend.Migrations
                     b.ToTable("Prescriptions");
                 });
 
-            modelBuilder.Entity("backend.Models.PrescriptionItem", b =>
+            modelBuilder.Entity("backend.Domain.Entities.PrescriptionItem", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -726,7 +726,7 @@ namespace backend.Migrations
                     b.ToTable("PrescriptionItems");
                 });
 
-            modelBuilder.Entity("backend.Models.Role", b =>
+            modelBuilder.Entity("backend.Domain.Entities.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -756,7 +756,7 @@ namespace backend.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("backend.Models.Specialty", b =>
+            modelBuilder.Entity("backend.Domain.Entities.Specialty", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -780,7 +780,7 @@ namespace backend.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
-                    b.HasOne("backend.Models.Role", null)
+                    b.HasOne("backend.Domain.Entities.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -789,7 +789,7 @@ namespace backend.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
-                    b.HasOne("backend.Models.AppUser", null)
+                    b.HasOne("backend.Domain.Entities.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -798,7 +798,7 @@ namespace backend.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
-                    b.HasOne("backend.Models.AppUser", null)
+                    b.HasOne("backend.Domain.Entities.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -807,13 +807,13 @@ namespace backend.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.HasOne("backend.Models.Role", null)
+                    b.HasOne("backend.Domain.Entities.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("backend.Models.AppUser", null)
+                    b.HasOne("backend.Domain.Entities.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -822,22 +822,22 @@ namespace backend.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.HasOne("backend.Models.AppUser", null)
+                    b.HasOne("backend.Domain.Entities.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("backend.Models.Appointment", b =>
+            modelBuilder.Entity("backend.Domain.Entities.Appointment", b =>
                 {
-                    b.HasOne("backend.Models.Doctor", "Doctor")
+                    b.HasOne("backend.Domain.Entities.Doctor", "Doctor")
                         .WithMany("Appointments")
                         .HasForeignKey("DoctorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("backend.Models.Patient", "Patient")
+                    b.HasOne("backend.Domain.Entities.Patient", "Patient")
                         .WithMany("Appointments")
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -848,21 +848,21 @@ namespace backend.Migrations
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("backend.Models.Consultation", b =>
+            modelBuilder.Entity("backend.Domain.Entities.Consultation", b =>
                 {
-                    b.HasOne("backend.Models.Appointment", "Appointment")
+                    b.HasOne("backend.Domain.Entities.Appointment", "Appointment")
                         .WithOne("Consultation")
-                        .HasForeignKey("backend.Models.Consultation", "AppointmentId")
+                        .HasForeignKey("backend.Domain.Entities.Consultation", "AppointmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("backend.Models.Doctor", "Doctor")
+                    b.HasOne("backend.Domain.Entities.Doctor", "Doctor")
                         .WithMany("Consultations")
                         .HasForeignKey("DoctorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("backend.Models.Patient", "Patient")
+                    b.HasOne("backend.Domain.Entities.Patient", "Patient")
                         .WithMany("Consultations")
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -875,9 +875,9 @@ namespace backend.Migrations
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("backend.Models.Doctor", b =>
+            modelBuilder.Entity("backend.Domain.Entities.Doctor", b =>
                 {
-                    b.HasOne("backend.Models.Specialty", "Specialty")
+                    b.HasOne("backend.Domain.Entities.Specialty", "Specialty")
                         .WithMany("Doctors")
                         .HasForeignKey("SpecialtyId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -886,9 +886,9 @@ namespace backend.Migrations
                     b.Navigation("Specialty");
                 });
 
-            modelBuilder.Entity("backend.Models.DoctorSchedule", b =>
+            modelBuilder.Entity("backend.Domain.Entities.DoctorSchedule", b =>
                 {
-                    b.HasOne("backend.Models.Doctor", "Doctor")
+                    b.HasOne("backend.Domain.Entities.Doctor", "Doctor")
                         .WithMany("Schedules")
                         .HasForeignKey("DoctorId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -897,13 +897,13 @@ namespace backend.Migrations
                     b.Navigation("Doctor");
                 });
 
-            modelBuilder.Entity("backend.Models.Invoice", b =>
+            modelBuilder.Entity("backend.Domain.Entities.Invoice", b =>
                 {
-                    b.HasOne("backend.Models.Appointment", "Appointment")
+                    b.HasOne("backend.Domain.Entities.Appointment", "Appointment")
                         .WithMany("Invoices")
                         .HasForeignKey("AppointmentId");
 
-                    b.HasOne("backend.Models.Patient", "Patient")
+                    b.HasOne("backend.Domain.Entities.Patient", "Patient")
                         .WithMany("Invoices")
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -914,9 +914,9 @@ namespace backend.Migrations
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("backend.Models.InvoiceItem", b =>
+            modelBuilder.Entity("backend.Domain.Entities.InvoiceItem", b =>
                 {
-                    b.HasOne("backend.Models.Invoice", "Invoice")
+                    b.HasOne("backend.Domain.Entities.Invoice", "Invoice")
                         .WithMany("Items")
                         .HasForeignKey("InvoiceId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -925,9 +925,9 @@ namespace backend.Migrations
                     b.Navigation("Invoice");
                 });
 
-            modelBuilder.Entity("backend.Models.LabRequest", b =>
+            modelBuilder.Entity("backend.Domain.Entities.LabRequest", b =>
                 {
-                    b.HasOne("backend.Models.Consultation", "Consultation")
+                    b.HasOne("backend.Domain.Entities.Consultation", "Consultation")
                         .WithMany("LabRequests")
                         .HasForeignKey("ConsultationId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -936,14 +936,14 @@ namespace backend.Migrations
                     b.Navigation("Consultation");
                 });
 
-            modelBuilder.Entity("backend.Models.MedicalAttachment", b =>
+            modelBuilder.Entity("backend.Domain.Entities.MedicalAttachment", b =>
                 {
-                    b.HasOne("backend.Models.Consultation", "Consultation")
+                    b.HasOne("backend.Domain.Entities.Consultation", "Consultation")
                         .WithMany("Attachments")
                         .HasForeignKey("ConsultationId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("backend.Models.Patient", "Patient")
+                    b.HasOne("backend.Domain.Entities.Patient", "Patient")
                         .WithMany("Attachments")
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -954,31 +954,31 @@ namespace backend.Migrations
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("backend.Models.PatientMedicalHistory", b =>
+            modelBuilder.Entity("backend.Domain.Entities.PatientMedicalHistory", b =>
                 {
-                    b.HasOne("backend.Models.Patient", "Patient")
+                    b.HasOne("backend.Domain.Entities.Patient", "Patient")
                         .WithOne("MedicalHistory")
-                        .HasForeignKey("backend.Models.PatientMedicalHistory", "PatientId")
+                        .HasForeignKey("backend.Domain.Entities.PatientMedicalHistory", "PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("backend.Models.PatientVital", b =>
+            modelBuilder.Entity("backend.Domain.Entities.PatientVital", b =>
                 {
-                    b.HasOne("backend.Models.Consultation", "Consultation")
+                    b.HasOne("backend.Domain.Entities.Consultation", "Consultation")
                         .WithOne("Vitals")
-                        .HasForeignKey("backend.Models.PatientVital", "ConsultationId")
+                        .HasForeignKey("backend.Domain.Entities.PatientVital", "ConsultationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Consultation");
                 });
 
-            modelBuilder.Entity("backend.Models.Payment", b =>
+            modelBuilder.Entity("backend.Domain.Entities.Payment", b =>
                 {
-                    b.HasOne("backend.Models.Invoice", "Invoice")
+                    b.HasOne("backend.Domain.Entities.Invoice", "Invoice")
                         .WithMany("Payments")
                         .HasForeignKey("InvoiceId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -987,9 +987,9 @@ namespace backend.Migrations
                     b.Navigation("Invoice");
                 });
 
-            modelBuilder.Entity("backend.Models.Prescription", b =>
+            modelBuilder.Entity("backend.Domain.Entities.Prescription", b =>
                 {
-                    b.HasOne("backend.Models.Consultation", "Consultation")
+                    b.HasOne("backend.Domain.Entities.Consultation", "Consultation")
                         .WithMany("Prescriptions")
                         .HasForeignKey("ConsultationId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -998,9 +998,9 @@ namespace backend.Migrations
                     b.Navigation("Consultation");
                 });
 
-            modelBuilder.Entity("backend.Models.PrescriptionItem", b =>
+            modelBuilder.Entity("backend.Domain.Entities.PrescriptionItem", b =>
                 {
-                    b.HasOne("backend.Models.Prescription", "Prescription")
+                    b.HasOne("backend.Domain.Entities.Prescription", "Prescription")
                         .WithMany("Items")
                         .HasForeignKey("PrescriptionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1009,14 +1009,14 @@ namespace backend.Migrations
                     b.Navigation("Prescription");
                 });
 
-            modelBuilder.Entity("backend.Models.Appointment", b =>
+            modelBuilder.Entity("backend.Domain.Entities.Appointment", b =>
                 {
                     b.Navigation("Consultation");
 
                     b.Navigation("Invoices");
                 });
 
-            modelBuilder.Entity("backend.Models.Consultation", b =>
+            modelBuilder.Entity("backend.Domain.Entities.Consultation", b =>
                 {
                     b.Navigation("Attachments");
 
@@ -1027,7 +1027,7 @@ namespace backend.Migrations
                     b.Navigation("Vitals");
                 });
 
-            modelBuilder.Entity("backend.Models.Doctor", b =>
+            modelBuilder.Entity("backend.Domain.Entities.Doctor", b =>
                 {
                     b.Navigation("Appointments");
 
@@ -1036,14 +1036,14 @@ namespace backend.Migrations
                     b.Navigation("Schedules");
                 });
 
-            modelBuilder.Entity("backend.Models.Invoice", b =>
+            modelBuilder.Entity("backend.Domain.Entities.Invoice", b =>
                 {
                     b.Navigation("Items");
 
                     b.Navigation("Payments");
                 });
 
-            modelBuilder.Entity("backend.Models.Patient", b =>
+            modelBuilder.Entity("backend.Domain.Entities.Patient", b =>
                 {
                     b.Navigation("Appointments");
 
@@ -1056,12 +1056,12 @@ namespace backend.Migrations
                     b.Navigation("MedicalHistory");
                 });
 
-            modelBuilder.Entity("backend.Models.Prescription", b =>
+            modelBuilder.Entity("backend.Domain.Entities.Prescription", b =>
                 {
                     b.Navigation("Items");
                 });
 
-            modelBuilder.Entity("backend.Models.Specialty", b =>
+            modelBuilder.Entity("backend.Domain.Entities.Specialty", b =>
                 {
                     b.Navigation("Doctors");
                 });

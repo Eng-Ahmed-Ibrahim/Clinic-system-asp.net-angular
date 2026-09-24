@@ -1,103 +1,47 @@
 using backend.DTOs.Users;
-using backend.Models;
+using backend.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using backend.Applications.Services;
+using Microsoft.AspNetCore.Authentication;
+using backend.Applications.Interfaces;
 
 namespace backend.Controllers;
 
 [ApiController]
 [Route("api/v1/users")]
 [Authorize]
-public class UsersController(UserManager<AppUser> userManager) : ControllerBase
+public class UsersController(UserManager<AppUser> userManager,IUserService userService) : ApiControllerBase
 {
 
     [HttpGet]
-    public async Task<ActionResult> index()
+    public async Task<IActionResult> index()
     {
-        var users = await userManager.Users.OrderByDescending(u => u.Id)
-            .Select(u => new UserDto
-            {
-                Id = u.Id,
-                FullName = u.fullName,
-                Email = u.Email,
-                UserName = u.UserName
-            })
-                .ToListAsync();
-
-        return Ok(users);
-    }
+        var users =await userService.ListOfUser();
+        return HandleResult(users);
+    }   
     [HttpPost]
     [Route("store")]
-    public async Task<ActionResult> store([FromBody] CreateUserDto createUserDto)
+    public async Task<IActionResult> store([FromBody] CreateUserDto createUserDto)
     {
-        var checkIfEmailExists = await userManager.FindByEmailAsync(createUserDto.Email);
-        if (checkIfEmailExists != null)
-        {
-            return BadRequest(new
-            {
-                message = "المستخدم موجود بالفعل "
-            });
-        }
-        var user = new AppUser
-        {
-            UserName = createUserDto.Email,
-            Email = createUserDto.Email,
-            fullName = createUserDto.FullName,
-        };
-        var result = await userManager.CreateAsync(user, createUserDto.Password);
-        if (!result.Succeeded)
-        {
-            return BadRequest(new
-            {
-                errors = result.Errors.Select(e => e.Description)
-            });
-        }
-        return Ok(new { message = "User Created Successfully" });
+        var result =await userService.Store(createUserDto);
+
+        return HandleResult(result);
     }
     [HttpPut]
     [Route("update/{id}")]
-    public async Task<ActionResult> update([FromBody] UserDto userDto, [FromRoute] string id)
+    public async Task<IActionResult> update([FromBody] UserDto userDto, [FromRoute] int id)
     {
-        var user = await userManager.FindByIdAsync(id);
-        if (user == null)
-        {
-            return BadRequest(new
-            {
-                message = "User Not Found"
-            });
-        }
-        if (userDto.FullName != null)
-            user.fullName = userDto.FullName;
-
-        if (userDto.UserName != null)
-            user.UserName = userDto.UserName;
-
-        if (userDto.Email != null)
-            user.Email = userDto.Email;
-
-        var result = await userManager.UpdateAsync(user);
-        if (!result.Succeeded)
-            return BadRequest(result.Errors);
-        return Ok(new
-        {
-            message = "User updated successfully"
-        });
+        var result = await userService.Update(userDto,id);
+        return HandleResult(result);
     }
     [HttpDelete]
     [Route("delete/{id}")]
-    public async Task<ActionResult> Delete([FromRoute] string id)
+    public async Task<IActionResult> Delete([FromRoute] int id)
     {
-        var user = await userManager.FindByIdAsync(id);
-        if (user == null)
-        {
-            return NotFound();
-        }
-        await userManager.DeleteAsync(user);
-        return Ok(new
-        {
-            message = "User deleted successfully"
-        });
+        var result  = await userService.Delete(id);
+        return HandleResult(result);
     }
 }

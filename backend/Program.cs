@@ -1,12 +1,13 @@
-using backend.Data;
-using backend.Configurations;
+using backend.Infrastructure.Data;
+using backend.Infrastructure.Configurations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
-using backend.Services;
-using backend.Models;
+using backend.Applications.Services;
+using backend.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
+using backend.Applications.Interfaces;
 
 
 
@@ -21,6 +22,7 @@ builder.Services
 
 
 builder.Services.AddControllers();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<ISpecialtyService,SpecialtyService>();
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JWT"));

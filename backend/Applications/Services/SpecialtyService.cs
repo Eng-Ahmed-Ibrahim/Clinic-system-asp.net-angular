@@ -1,10 +1,11 @@
 using backend.Common;
-using backend.Data;
+using backend.Infrastructure.Data;
 using backend.DTOs.Specialties;
-using backend.Models;
+using backend.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using backend.Applications.Interfaces;
 
-namespace backend.Services;
+namespace backend.Applications.Services;
 
 public class SpecialtyService(AppDbContext appDbContext) : ISpecialtyService
 {
@@ -37,8 +38,23 @@ public class SpecialtyService(AppDbContext appDbContext) : ISpecialtyService
         return Result<Specialty>.Success(specialty);
     }
 
-    public Task<Result<Specialty>> UpdateAsync(int id, SpecialtyDto dto)
+    public async Task<Result<Specialty>> UpdateAsync(int id, SpecialtyDto dto)
     {
-        throw new NotImplementedException();
+        var specialty = await appDbContext.Specialties.FindAsync(id);
+        if (specialty == null)
+        {
+            return Result<Specialty>.NotFound("التخصص غير موجود");
+        }
+        specialty.Name=dto.Name;
+        specialty.Description=dto.Description;
+        await appDbContext.SaveChangesAsync();
+        return Result<Specialty>.Success(specialty);
+    }
+
+    public async Task<Result<Specialty[]>> List()
+    {
+        var specialties = await appDbContext.Specialties.OrderByDescending(s=>s.Id)
+            .ToArrayAsync();
+        return Result<Specialty[]>.Success(specialties);
     }
 }
