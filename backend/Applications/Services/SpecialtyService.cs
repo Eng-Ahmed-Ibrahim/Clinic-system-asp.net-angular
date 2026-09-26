@@ -4,6 +4,7 @@ using backend.DTOs.Specialties;
 using backend.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using backend.Applications.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Applications.Services;
 
@@ -56,5 +57,14 @@ public class SpecialtyService(AppDbContext appDbContext) : ISpecialtyService
         var specialties = await appDbContext.Specialties.OrderByDescending(s=>s.Id)
             .ToArrayAsync();
         return Result<Specialty[]>.Success(specialties);
+    }
+    public async Task<Result<Specialty>> DeleteAsync( long  id)
+    {
+        var specialty  = await appDbContext.Specialties.FindAsync(id);
+        if(specialty is null )
+            return Result<Specialty>.NotFound("لا يوجد هذا التخصص");
+         appDbContext.Specialties.Remove(specialty);
+        await appDbContext.SaveChangesAsync();
+        return Result<Specialty>.Success(specialty);     
     }
 }

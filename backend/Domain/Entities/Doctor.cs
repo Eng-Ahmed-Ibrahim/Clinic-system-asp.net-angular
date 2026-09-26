@@ -22,7 +22,7 @@ namespace backend.Domain.Entities
         [Key]
         public long Id { get; set; }
 
-
+        public string Name {get;set;}
         public long SpecialtyId { get; set; }
         [ForeignKey(nameof(SpecialtyId))]
         public virtual Specialty Specialty { get; set; } = null!;
@@ -35,6 +35,9 @@ namespace backend.Domain.Entities
 
         [Precision(18, 2)]
         public decimal FollowupFee { get; set; }
+        [Required]
+        [RegularExpression(@"^01[0125][0-9]{8}$",ErrorMessage ="رقم التلفون غير صحيح")]
+        public string PhoneNumber {get;set;}
 
         public string? Bio { get; set; }
 

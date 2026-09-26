@@ -13,7 +13,7 @@ namespace backend.Controllers;
 [ApiController]
 [Route("api/v1/users")]
 [Authorize]
-public class UsersController(UserManager<AppUser> userManager,IUserService userService) : ApiControllerBase
+public class UsersController(IUserService userService) : ApiControllerBase
 {
 
     [HttpGet]

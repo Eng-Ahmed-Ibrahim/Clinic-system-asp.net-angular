@@ -27,13 +27,19 @@ public class SpecialtiesController(ISpecialtyService specialtyService) : ApiCont
     public async Task<IActionResult> Store([FromBody] SpecialtyDto specialtyDto)
     {
         var result = await specialtyService.CreateAsync(specialtyDto);
-        return HandleCreatedResult(result);
+        return HandleResult(result);
     }
 
     [HttpPut("{id:int}")]
     public async Task<IActionResult> Update([FromRoute] int id, [FromBody] SpecialtyDto specialtyDto)
     {
         var result = await specialtyService.UpdateAsync(id, specialtyDto);
+        return HandleResult(result);
+    }
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> Delete([FromRoute] long  id)
+    {
+        var result = await specialtyService.DeleteAsync(id);
         return HandleResult(result);
     }
 }

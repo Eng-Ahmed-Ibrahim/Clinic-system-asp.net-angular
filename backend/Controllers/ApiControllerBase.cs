@@ -21,14 +21,4 @@ public abstract class ApiControllerBase : ControllerBase
             _ => BadRequest(new { message = result.Error })
         };
     }
-
-    protected IActionResult HandleCreatedResult<T>(Result<T> result)
-    {
-        if (!result.IsSuccess)
-        {
-            return HandleResult(result);
-        }
-
-        return StatusCode(201,result.Value);
-    }
 }

@@ -25,6 +25,7 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<ISpecialtyService,SpecialtyService>();
+builder.Services.AddScoped<IDoctorService,DoctorService>();
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JWT"));
 
 builder.Services
