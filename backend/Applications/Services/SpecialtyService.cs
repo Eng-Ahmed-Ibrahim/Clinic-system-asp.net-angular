@@ -1,6 +1,6 @@
 using backend.Common;
 using backend.Infrastructure.Data;
-using backend.DTOs.Specialties;
+using backend.Applications.DTOs.Specialties;
 using backend.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using backend.Applications.Interfaces;

@@ -1,6 +1,6 @@
 using backend.Common;
 using backend.Domain.Entities;
-using backend.DTOs.Users;
+using backend.Applications.DTOs.Users;
 
 namespace backend.Applications.Interfaces;
 public interface IUserService

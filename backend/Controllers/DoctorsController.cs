@@ -1,5 +1,5 @@
 using backend.Applications.Interfaces;
-using backend.DTOs.Doctors;
+using backend.Applications.DTOs.Doctors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers;

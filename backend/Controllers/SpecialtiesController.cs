@@ -1,4 +1,4 @@
-using backend.DTOs.Specialties;
+using backend.Applications.DTOs.Specialties;
 using backend.Applications.Services;
 using Microsoft.AspNetCore.Mvc;
 using backend.Applications.Interfaces;

@@ -1,7 +1,7 @@
 using backend.Applications.Interfaces;
 using backend.Common;
 using backend.Domain.Entities;
-using backend.DTOs.Users;
+using backend.Applications.DTOs.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

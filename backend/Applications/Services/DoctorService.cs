@@ -1,48 +1,32 @@
 using backend.Applications.Interfaces;
 using backend.Common;
 using backend.Domain.Entities;
-using backend.DTOs.Doctors;
+using backend.Applications.DTOs.Doctors;
 using backend.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 
 namespace backend.Applications.Services;
 
-public class DoctorService(AppDbContext appDbContext) : IDoctorService
+public class DoctorService(AppDbContext appDbContext, IMapper mapper) : IDoctorService
 {
-    public async Task<Result<Doctor>> CreateDoctor(CreateDoctorDto createDoctorDto)
+    public async Task<Result<DoctorDto>> CreateDoctor(CreateDoctorDto createDoctorDto)
     {
-        var doctor = new Doctor
-        {
-            PhoneNumber = createDoctorDto.PhoneNumber,
-            Name = createDoctorDto.Name,
-            SpecialtyId = createDoctorDto.SpecialtyId,
-            LicenseNumber = createDoctorDto.LicenseNumber,
-            ConsultationFee = createDoctorDto.ConsultationFee,
-            FollowupFee = createDoctorDto.FollowupFee,
-        };
 
+        var doctor = mapper.Map<Doctor>(createDoctorDto);
         await appDbContext.Doctors.AddAsync(doctor);
         await appDbContext.SaveChangesAsync();
-
-        return Result<Doctor>.Success(doctor);
+        var response = mapper.Map<DoctorDto>(doctor);
+        Console.WriteLine($"Response {response}");
+        return Result<DoctorDto>.Success(response);
     }
 
     public async Task<Result<DoctorDto[]>> GetDoctors()
     {
         var doctors = await appDbContext.Doctors
             .AsNoTracking()
-            .Select(d => new DoctorDto
-            {
-                Id = d.Id,
-                Name = d.Name,
-                SpecialtyId = d.SpecialtyId,
-                LicenseNumber = d.LicenseNumber,
-                PhoneNumber = d.PhoneNumber,
-                ConsultationFee = d.ConsultationFee,
-                FollowupFee = d.FollowupFee,
-                Specialty = d.Specialty,
-                Bio = d.Bio
-            })
+            .ProjectTo<DoctorDto>(mapper.ConfigurationProvider)
             .ToArrayAsync();
 
         return Result<DoctorDto[]>.Success(doctors);
@@ -77,26 +61,11 @@ public class DoctorService(AppDbContext appDbContext) : IDoctorService
 
         }
 
-        if (updateDoctorDto.Name is not null)
-            doctor.Name = updateDoctorDto.Name;
+        Console.WriteLine($"BEFORE: {doctor.SpecialtyId}");
+        Console.WriteLine($"DTO: {updateDoctorDto.SpecialtyId}");
 
-        if (updateDoctorDto.PhoneNumber is not null)
-            doctor.PhoneNumber = updateDoctorDto.PhoneNumber;
-
-        if (updateDoctorDto.SpecialtyId.HasValue)
-            doctor.SpecialtyId = updateDoctorDto.SpecialtyId.Value;
-
-        if (updateDoctorDto.LicenseNumber is not null)
-            doctor.LicenseNumber = updateDoctorDto.LicenseNumber;
-
-        if (updateDoctorDto.ConsultationFee.HasValue)
-            doctor.ConsultationFee = updateDoctorDto.ConsultationFee.Value;
-
-        if (updateDoctorDto.FollowupFee.HasValue)
-            doctor.FollowupFee = updateDoctorDto.FollowupFee.Value;
-
-        if (updateDoctorDto.Bio is not null)
-            doctor.Bio = updateDoctorDto.Bio;
+        mapper.Map(updateDoctorDto, doctor);
+        Console.WriteLine($"AFTER: {doctor.SpecialtyId}");
 
         await appDbContext.SaveChangesAsync();
 
@@ -107,20 +76,9 @@ public class DoctorService(AppDbContext appDbContext) : IDoctorService
     {
         var doctor = await appDbContext.Doctors
             .AsNoTracking()
-            .Select(d => new DoctorDto
-            {
-                Id = d.Id,
-                Name = d.Name,
-                SpecialtyId = d.SpecialtyId,
-                LicenseNumber = d.LicenseNumber,
-                PhoneNumber = d.PhoneNumber,
-                ConsultationFee = d.ConsultationFee,
-                FollowupFee = d.FollowupFee,
-                Specialty = d.Specialty,
-                Bio = d.Bio
-            })
-            .FirstOrDefaultAsync(d => d.Id == id);
-
+             .Where(d => d.Id == id)
+            .ProjectTo<DoctorDto>(mapper.ConfigurationProvider)
+            .FirstOrDefaultAsync();
         if (doctor is null)
             return Result<DoctorDto>.NotFound("هذا الدكتور غير موجود");
 

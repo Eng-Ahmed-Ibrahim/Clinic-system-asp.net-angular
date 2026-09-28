@@ -1,4 +1,4 @@
-using backend.DTOs.Users;
+using backend.Applications.DTOs.Users;
 using backend.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

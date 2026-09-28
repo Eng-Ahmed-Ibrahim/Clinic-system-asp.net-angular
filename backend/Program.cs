@@ -8,6 +8,7 @@ using backend.Applications.Services;
 using backend.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using backend.Applications.Interfaces;
+using backend.Applications.Mapping;
 
 
 
@@ -22,9 +23,12 @@ builder.Services
 
 
 builder.Services.AddControllers();
+builder.Services.AddAutoMapper(typeof(PatientProfile));
+builder.Services.AddAutoMapper(typeof(DoctorProfile));
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<ISpecialtyService,SpecialtyService>();
+builder.Services.AddScoped<IPatientService,PatientService>();
 builder.Services.AddScoped<IDoctorService,DoctorService>();
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JWT"));
 

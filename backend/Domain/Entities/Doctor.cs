@@ -35,13 +35,12 @@ namespace backend.Domain.Entities
 
         [Precision(18, 2)]
         public decimal FollowupFee { get; set; }
-        [Required]
         [RegularExpression(@"^01[0125][0-9]{8}$",ErrorMessage ="رقم التلفون غير صحيح")]
         public string PhoneNumber {get;set;}
 
         public string? Bio { get; set; }
 
-        // Navigation Properties
+        // Navigation Properties 
         public virtual ICollection<DoctorSchedule> Schedules { get; set; } = new List<DoctorSchedule>();
         public virtual ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
         public virtual ICollection<Consultation> Consultations { get; set; } = new List<Consultation>();

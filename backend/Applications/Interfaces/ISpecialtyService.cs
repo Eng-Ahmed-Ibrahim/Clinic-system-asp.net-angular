@@ -1,5 +1,5 @@
 using backend.Common;
-using backend.DTOs.Specialties;
+using backend.Applications.DTOs.Specialties;
 using backend.Domain.Entities;
 
 namespace backend.Applications.Interfaces;
