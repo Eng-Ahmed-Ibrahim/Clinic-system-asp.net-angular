@@ -32,7 +32,7 @@ import { TranslationService } from '../../../core/services/translation.service';
         'w-64': !collapsed,
         'w-20': collapsed,
         'translate-x-0 shadow-2xl': mobileOpen,
-        '-translate-x-full rtl:translate-x-full lg:translate-x-0': !mobileOpen
+        '-translate-x-full  lg:translate-x-0': !mobileOpen
       }"
     >
       <!-- Top Branding -->
