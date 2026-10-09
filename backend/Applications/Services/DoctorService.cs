@@ -48,6 +48,7 @@ public class DoctorService(AppDbContext appDbContext, IMapper mapper) : IDoctorS
         return Result<string>.Success("Doctor deleted successfully.");
     }
 
+
     public async Task<Result<string>> UpdateDoctor(
         UpdateDoctorDto updateDoctorDto,
         long id)
@@ -60,13 +61,7 @@ public class DoctorService(AppDbContext appDbContext, IMapper mapper) : IDoctorS
             return Result<string>.NotFound("هذا الدكتور غير موجود");
 
         }
-
-        Console.WriteLine($"BEFORE: {doctor.SpecialtyId}");
-        Console.WriteLine($"DTO: {updateDoctorDto.SpecialtyId}");
-
         mapper.Map(updateDoctorDto, doctor);
-        Console.WriteLine($"AFTER: {doctor.SpecialtyId}");
-
         await appDbContext.SaveChangesAsync();
 
         return Result<string>.Success("Doctor updated successfully.");

@@ -28,7 +28,7 @@ public class PatientsController(IPatientService patientService) : ApiControllerB
         return HandleResult(result);
     }
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdatePatient([FromRoute] long id , [FromBody]CreatePatientDto  data)
+    public async Task<IActionResult> UpdatePatient([FromRoute] long id , [FromBody] UpdatePatientDto  data)
     {
         var result = await patientService.UpdatePatient(id,data);
         return HandleResult(result);

@@ -60,7 +60,20 @@ public class PatientService(IMapper mapper, AppDbContext appDbContext) : IPatien
         await appDbContext.SaveChangesAsync();
         return Result<string>.Success("تم حذف المريض بنجاح");
     }
-    public async Task<Result<PatientDto>> UpdatePatient()
+    public async Task<Result<string>> UpdatePatient(long id, UpdatePatientDto dto)
+    {
+        var patient = await appDbContext.Patients
+            .Include(p => p.MedicalHistory)
+            .FirstOrDefaultAsync(p => p.Id == id);
+
+        if (patient is null)
+            return Result<string>.NotFound("لا يوجد هذا المريض");
+
+        mapper.Map(dto, patient);
+        await appDbContext.SaveChangesAsync();
+
+        return Result<string>.Success("تم تعديل المريض بنجاح");
+    }
 
 
 }

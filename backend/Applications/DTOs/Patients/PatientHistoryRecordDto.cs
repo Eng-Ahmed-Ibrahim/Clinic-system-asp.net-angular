@@ -6,7 +6,7 @@ public class PatientHistoryRecordDto
 {
 
 
-        public long PatientId { get; set; }
+        public long? PatientId { get; set; }
  
         public string? ChronicDiseases { get; set; }
         public string? Allergies { get; set; }

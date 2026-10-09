@@ -15,7 +15,7 @@ import { Patient, PatientStatus } from '../../core/models/patient.model';
 import { SearchInputComponent } from '../../shared/components/search-input/search-input.component';
 import { ModalComponent } from '../../shared/components/modal/modal.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faTrash ,faPen} from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faPen } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-patients-page',
@@ -88,29 +88,32 @@ export class PatientsPageComponent implements OnInit {
 
   }
 
-openEdit(patient: Patient) {
-  this.editingId.set(patient.id);
-  this.patientForm.patchValue({
-    nationalId: patient.nationalId,
-    firstName: patient.firstName,
-    lastName: patient.lastName,
-    gender: patient.gender,
-    // input type="date" محتاج yyyy-MM-dd
-    dateOfBirth: patient.dateOfBirth?.split('T')[0],
-    phoneNumber: patient.phoneNumber,
-    emergencyPhone: patient.emergencyPhone,
-    bloodGroup: patient.bloodGroup,
-    address: patient.address,
-    medicalHistory: {
-      chronicDiseases: patient.medicalHistory?.chronicDiseases,
-      allergies: patient.medicalHistory?.allergies,
-      pastSurgeries: patient.medicalHistory?.pastSurgeries,
-      familyMedicalHistory: patient.medicalHistory?.familyMedicalHistory,
-    },
-  });
-  this.isEditMode.set(true);
-  this.openModel.set(true);
-}
+  openEdit(patient: Patient) {
+    this.editingId.set(patient.id);
+    this.patientForm.patchValue({
+      nationalId: patient.nationalId,
+      firstName: patient.firstName,
+      lastName: patient.lastName,
+      gender: patient.gender,
+      // input type="date" محتاج yyyy-MM-dd
+      dateOfBirth: patient.dateOfBirth?.split('T')[0],
+      phoneNumber: patient.phoneNumber,
+      emergencyPhone: patient.emergencyPhone,
+      bloodGroup: patient.bloodGroup,
+      address: patient.address,
+      medicalHistory: {
+        chronicDiseases: patient.medicalHistory?.chronicDiseases,
+        allergies: patient.medicalHistory?.allergies,
+        pastSurgeries: patient.medicalHistory?.pastSurgeries,
+        familyMedicalHistory: patient.medicalHistory?.familyMedicalHistory,
+      },
+    });
+    this.isEditMode.set(true);
+    this.openModel.set(true);
+  }
+  closeModel(){
+    this.openModel.set(false);
+  }
   submitPatient() {
     if (this.patientForm.invalid) {
       this.patientForm.markAllAsTouched();
@@ -121,14 +124,23 @@ openEdit(patient: Patient) {
 
     const patient = this.patientForm.value;
     const id = this.editingId();
-    const request$ = id ? this.patientService.updatePatient(patient,id): this.patientService.createPatient(patient)
-    request$ .subscribe({
+    const request$ = id ? this.patientService.updatePatient(patient, id) : this.patientService.createPatient(patient)
+    request$.subscribe({
       next: (response) => {
-        this.patients$.update(patients => [
-          ...patients,
-          response.data
-        ]);
-        this.toastService.success("تم الاضافه بنجاح")
+        if (id) {
+          this.patients$.update(patients =>
+            patients.map(p => p.id === id ? { ...p, ...patient, id } : p)
+          );
+          this.toastService.success("تم التعديل بنجاح")
+        } else {
+
+          this.patients$.update(patients => [
+            ...patients,
+            response.data
+          ]);
+          this.toastService.success("تم الاضافه بنجاح")
+        }
+        this.closeModel();
       },
       error: (error) => {
         console.log(error);
