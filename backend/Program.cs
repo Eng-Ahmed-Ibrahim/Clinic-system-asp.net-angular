@@ -27,10 +27,15 @@ builder.Services.AddAutoMapper(typeof(PatientProfile));
 builder.Services.AddAutoMapper(typeof(DoctorProfile));
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
-builder.Services.AddScoped<ISpecialtyService,SpecialtyService>();
-builder.Services.AddScoped<IPatientService,PatientService>();
-builder.Services.AddScoped<IDoctorService,DoctorService>();
+builder.Services.AddScoped<ISpecialtyService, SpecialtyService>();
+builder.Services.AddScoped<IPatientService, PatientService>();
+builder.Services.AddScoped<IDoctorService, DoctorService>();
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JWT"));
+builder.Services.AddCors(o => o.AddPolicy("AngularDev", p =>
+    p.WithOrigins("http://localhost:4200")
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+    ));
 
 builder.Services
     .AddAuthentication(options =>
@@ -58,7 +63,7 @@ builder.Services
             )
         };
     });
-    
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")
@@ -72,6 +77,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors("AngularDev");
 app.UseAuthentication();
 app.UseAuthorization();
 

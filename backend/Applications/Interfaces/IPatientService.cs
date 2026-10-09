@@ -5,6 +5,7 @@ using backend.Applications.DTOs.Patients;
 namespace backend.Applications.Interfaces;
 public interface IPatientService
 {
-    Task<Result<Patient[]>> GetPatients();
+    Task<Result<PatientDto[]>> GetPatients();
+    Task<Result<string>> DeletePatient(long id);
     Task<Result<PatientDto>> CreatePatient(CreatePatientDto createPatientDto);
 }

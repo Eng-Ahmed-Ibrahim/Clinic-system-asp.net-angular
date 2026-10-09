@@ -106,7 +106,7 @@ import { CommonModule } from '@angular/common';
       }
     `,
   ],
-})
+}) 
 export class ModalComponent {
   @Input() isOpen = false;
   @Input() title = '';

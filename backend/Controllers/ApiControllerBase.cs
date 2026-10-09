@@ -10,15 +10,15 @@ public abstract class ApiControllerBase : ControllerBase
     {
         if (result.IsSuccess)
         {
-            return result.Value is null ? NoContent() : Ok(result.Value);
+            return result.Value is null ? NoContent() : Ok(new {status=200,message=result.Message,data=result.Value});
         }
 
         return result.ErrorType switch
         {
-            ErrorType.NotFound => NotFound(new { message = result.Error }),
-            ErrorType.Conflict => Conflict(new { message = result.Error }),
-            ErrorType.Validation => BadRequest(new { message = result.Error }),
-            _ => BadRequest(new { message = result.Error })
+            ErrorType.NotFound => NotFound(new {status=404, message=result.Message }),
+            ErrorType.Conflict => Conflict(new {status=422, message=result.Message }),
+            ErrorType.Validation => BadRequest(new { status=422, message=result.Message }),
+            _ => BadRequest(new { message=result.Message })
         };
     }
 }

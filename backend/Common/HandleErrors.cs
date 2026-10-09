@@ -14,25 +14,29 @@ public class Result<T>
     public bool IsSuccess { get; }
     public T? Value { get; }
     public string Error { get; }
+    public string Message { get; }
     public ErrorType ErrorType { get; }
 
-    private Result(bool isSuccess, T? value, string error, ErrorType errorType)
+    private Result(bool isSuccess, T? value, string error, ErrorType errorType,string? message="")
     {
         IsSuccess = isSuccess;
         Value = value;
+        Message = message;
         Error = error;
         ErrorType = errorType;
     }
+
 
     public static Result<T> Success(T value)
         => new(true, value, string.Empty, ErrorType.None);
 
     public static Result<T> Failure(string error, ErrorType errorType = ErrorType.Failure)
-        => new(false, default, error, errorType);
+        => new(false, default, null, errorType,error);
 
     public static Result<T> NotFound(string error)
-        => new(false, default, error, ErrorType.NotFound);
+        => new(false, default, null, ErrorType.NotFound, error);
+
 
     public static Result<T> Conflict(string error)
-        => new(false, default, error, ErrorType.Conflict);
+        => new(false, default, null, ErrorType.Conflict,error);
 }

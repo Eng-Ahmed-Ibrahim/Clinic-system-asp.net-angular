@@ -19,11 +19,11 @@ public class CreatePatientDto
 
         public DateTime DateOfBirth { get; set; }
 
-        [Required, Phone, MaxLength(20)]
+        [Required, Phone, MaxLength(11)]
         public string PhoneNumber { get; set; } = null!;
 
-        [Phone, MaxLength(20)]
-        public string? EmergencyPhone { get; set; }
+        [Phone, MaxLength(11)]
+        public string? EmergencyPhone { get; set; } =null;
 
         public string? Address { get; set; }
 

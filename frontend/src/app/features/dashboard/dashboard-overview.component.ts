@@ -5,20 +5,17 @@ import {
   computed,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+
 import { TranslationService } from '../../core/services/translation.service';
 import { PatientService } from '../../core/services/patient.service';
 import { ToastService } from '../../core/services/toast.service';
 import { Patient, PatientStatus } from '../../core/models/patient.model';
-import { SearchInputComponent } from '../../shared/components/search-input/search-input.component';
-import { ModalComponent } from '../../shared/components/modal/modal.component';
+
 
 @Component({
   selector: 'app-dashboard-overview',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, SearchInputComponent, ModalComponent],
+  imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dashboard-template.component.html',
 })
@@ -57,17 +54,7 @@ export class DashboardOverviewComponent {
   ];
 
   readonly filteredPatients = computed(() => {
-    const query = this.tableSearch().toLowerCase().trim();
-    const list = this.patientService.patients();
-    if (!query) return list.slice(0, 5); // top 5 for dashboard
 
-    return list.filter(
-      (p) =>
-        p.name.toLowerCase().includes(query) ||
-        p.diagnosis.toLowerCase().includes(query) ||
-        p.id.toLowerCase().includes(query) ||
-        p.doctor.toLowerCase().includes(query)
-    );
   });
 
   todayFormatted(): string {
@@ -93,21 +80,6 @@ export class DashboardOverviewComponent {
       return;
     }
 
-    this.patientService.addPatient({
-      name: this.newPatientForm.name,
-      email: this.newPatientForm.email,
-      phone: this.newPatientForm.phone || '+1 (555) 000-0000',
-      age: this.newPatientForm.age || 30,
-      gender: this.newPatientForm.gender,
-      bloodType: this.newPatientForm.bloodType,
-      diagnosis: this.newPatientForm.diagnosis,
-      doctor: 'Dr. Ahmed Ebrahim',
-      lastVisit: new Date().toISOString().split('T')[0],
-      status: this.newPatientForm.status,
-      avatar: `https://images.unsplash.com/photo-${this.newPatientForm.gender === 'Female' ? '1494790108377-be9c29b29330' : '1507003211169-0a1dd7228f2d'}?w=120&auto=format&fit=crop&q=80`,
-      amount: 200,
-    });
-
     this.toast.success(
       this.t.isRtl()
         ? `تم تسجيل المريض ${this.newPatientForm.name} بنجاح`
@@ -129,12 +101,7 @@ export class DashboardOverviewComponent {
   confirmDeletePatient(): void {
     const p = this.patientToDelete();
     if (p) {
-      this.patientService.deletePatient(p.id);
-      this.toast.info(
-        this.t.isRtl()
-          ? `تم حذف ملف المريض ${p.name}`
-          : `Patient record for ${p.name} deleted`
-      );
+  
       this.patientToDelete.set(null);
     }
     this.isDeleteModalOpen.set(false);
