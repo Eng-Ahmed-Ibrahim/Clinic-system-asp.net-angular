@@ -16,6 +16,19 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'patients/:id',
+    loadComponent: () =>
+      import('./features/patients/profile/profile').then(
+        (m) => m.Profile
+      ),
+  },
+  {
+    path:"doctors",
+    loadComponent:()=>
+      import('./features/doctors/doctor.component/doctor.component')
+      .then((m)=>m.DoctorComponent)
+  },
+  {
     path: 'components',
     loadComponent: () =>
       import('./features/components-showcase/components-showcase.component').then(

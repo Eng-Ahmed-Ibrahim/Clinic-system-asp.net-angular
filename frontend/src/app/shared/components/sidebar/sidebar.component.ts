@@ -142,6 +142,27 @@ import { TranslationService } from '../../../core/services/translation.service';
               </span>
             }
           </a>
+          <a
+            routerLink="/doctors"
+            routerLinkActive="bg-teal-50 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300 font-semibold shadow-2xs"
+            (click)="closeMobile.emit()"
+            class="group flex items-center justify-between rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
+            [title]="'doctors'"
+          >
+            <div class="flex items-center gap-3 min-w-0">
+            <img style="width: 20px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAD/UlEQVR4nN2ZW4hOURTHf8ZlXKaEyJBCDRLGkAx5kNubSBGZ3JIkKZfJ08gbL3JJ7iR3KR54ILnnUsYtl/IwKJJxGTKSS+PTqv+p3dd3Od93jm/P+Neu095r/fda++yz91rrQHwYBqwBTgG1QD3QACTUGtRXK5k10mk2qABuOgbn2kx3uG8nyoBvMugjsBuYB1QCPYEuQCu1LuqrlMwe6Zhuo7i8YbUMOQ+U5KFfIt2EuLxhm4xYlUEm2ELZFmMrHnFGRsyM4MgsjZ/GI+7JiNERHKnUuJ1m3vBBRpQm9Wc7qVz0Ut97PKED8Af4CRRFcKRIHMZlnAXHABn1Iotctq1leCmZMjxgkia/GoMj1yQzEQ9YpMkPx+DIEcksxAPWafItQDkwARijkKW/PmK7zVsDbfTcR9tnJDBOOsPFYVzGWXDsixBfpWt7fThyQZM3AQ+AW7oLngN1iqMadBo1OdGvjT2VrH1fjzVuXMZZcDzT5Itj4Fosrmd4QBD12rcQFcGl+A0P+K3J28XAVSyu33hAkP3ZaRQV3ZycpuB4osnt6I2KCnE9xgMOavLqGLjWims/HjBdkz9METTmAtN9JK5peECxE+xVReCZ5wSfxXhClYz4DAzMQ3+QdI1jDh5h1ZETMsTezpAcdIcCr6R7VFxeYcnQDRn0FViZZYsUq+DQKJ3rvhKqdMYdcIK/t8AOYLai3HF63qmxhHNKefsuMmEycD9ElHtPiVmzRzlQAxzXtruh55rmVu8Ng46qrtjJNBjoq3CmLc0QRQovFgCbgUvAO+BXlq31BriiWvEKZYlRLtW8YCfMVGVz9WkM/aU6VZ1isid6fp/BSQtCj6tqaW/zn8Hy7U06Yl0D6p1LrVpylqenQ2vJVDuXafKCfAG253nJpkU/4FDSSlqauh4YpS1Ro/6TOfCelE6NOIxrvbiDeSwFPiYb8oaRL3EuLiM9q0pJMnrKUWu9Q3CXOvKpMsyKpMX7rgg505tOif5JK3NQ2yHsCmdD2DfYx0kXrN3N5e2MdIrTFpFOCak3XjqvVcdKhzaSSUgnDKY4kbYdGCOyKZQ5v8Nu55jGtlKZx3RnZJCbIZmnOQaKXYE7TkpclmmlgvDiSp6/0pZL/2IGmYuSMdlcUaJaWBDmpPxmFkjgU4r/HWHRWYfDnzRH50CNNUo2H5Q6hY/5qQQCT5cSDbucmnAyghqvyUTBMvFcTjUYXGrdYwgYg4uuk9PfyZkjauWlhxMN5FX+D4ubKcqpQVnUxuJAIp29cTpS5VRYkn+czm1JjrRz4ieLBMbq2e6n9i3JEcNG8R3SXy173kB8SBTKkX6Kz36oNUUN/nw5Yjjn8FrASSEdSbSwxn/lyF+xE/sVqV28xAAAAABJRU5ErkJggg==" alt="medical-doctor">
+              @if (!collapsed) {
+                <span class="truncate">الدكاترة</span>
+              }
+            </div>
+            @if (!collapsed) {
+              <span
+                class="rounded-full bg-teal-100 dark:bg-teal-900/60 px-2 py-0.5 text-[11px] font-bold text-teal-700 dark:text-teal-300"
+              >
+                12
+              </span>
+            }
+          </a>
 
           <!-- 3. UI Components Showcase -->
           <a

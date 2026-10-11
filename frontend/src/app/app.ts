@@ -6,6 +6,7 @@ import { SidebarComponent } from './shared/components/sidebar/sidebar.component'
 import { ToastContainerComponent } from './shared/components/toast-container/toast-container.component';
 import { TranslationService } from './core/services/translation.service';
 import { ThemeService } from './core/services/theme.service';
+import { Loader } from './shared/components/loader/loader';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,8 @@ import { ThemeService } from './core/services/theme.service';
     NavbarComponent,
     SidebarComponent,
     ToastContainerComponent,
-  ],
+    Loader
+],
   styleUrl: './app.css',
   templateUrl: './app.html',
 })
