@@ -1,1 +1,161 @@
-<p>doctor.component works!</p>
+
+<button
+  
+class="px-4 py-2 rounded-xl text-xs font-bold bg-teal-600 hover:bg-teal-700 text-white"
+(click)="openModel.set(true)"
+>أضافه دكتور</button>
+<div class="overflow-x-auto">
+  <table class="w-full text-start text-xs sm:text-sm">
+    <thead
+      class="bg-slate-50/80 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400 font-semibold border-b border-slate-200/80 dark:border-slate-800"
+    >
+      <tr>
+        <th scope="col" class="py-3.5 px-4 w-10 text-center">#</th>
+
+        <th scope="col" class="py-3.5 px-4 text-center">اسم الطبيب</th>
+
+        <th scope="col" class="py-3.5 px-4 text-center">التخصص</th>
+
+        <th scope="col" class="py-3.5 px-4 text-center">رقم الهاتف</th>
+
+        <th scope="col" class="py-3.5 px-4 text-center">رقم الترخيص</th>
+
+        <th scope="col" class="py-3.5 px-4 text-center">سعر الكشف</th>
+
+        <th scope="col" class="py-3.5 px-4 text-center">سعر المتابعة</th>
+
+        <th scope="col" class="py-3.5 px-4 text-end">الإجراءات</th>
+      </tr>
+    </thead>
+
+    <tbody class="divide-y divide-slate-100 dark:divide-slate-800/60">
+      @for (doctor of doctors$(); track doctor.id) {
+        <tr>
+          <td class="py-4 px-4 text-center text-sm text-slate-400">
+            {{ doctor.id }}
+          </td>
+
+          <td class="py-4 px-4 text-center text-sm font-medium text-slate-700 dark:text-slate-200">
+            {{ doctor.name }}
+          </td>
+
+          <td class="py-4 px-4 text-center text-sm text-slate-500 dark:text-slate-400">
+            {{ doctor.specialty?.name ?? 'غير محدد' }}
+          </td>
+
+          <td class="py-4 px-4 text-center text-sm text-slate-500 dark:text-slate-400">
+            {{ doctor.phoneNumber }}
+          </td>
+
+          <td class="py-4 px-4 text-center text-sm text-slate-500 dark:text-slate-400">
+            {{ doctor.licenseNumber }}
+          </td>
+
+          <td class="py-4 px-4 text-center text-sm text-slate-500 dark:text-slate-400">
+            {{ doctor.consultationFee }}
+          </td>
+
+          <td class="py-4 px-4 text-center text-sm text-slate-500 dark:text-slate-400">
+            {{ doctor.followupFee }}
+          </td>
+
+          <td class="py-4 px-4 text-center whitespace-nowrap">
+            <button
+              type="button"
+              class="text-teal-600 hover:text-teal-800 transition me-3"
+              aria-label="تعديل الطبيب"
+            >
+              <fa-icon [icon]="faPen"></fa-icon>
+            </button>
+
+            <button
+              type="button"
+              (click)="deleteDoctor(doctor.id)"
+              class="text-red-500 hover:text-red-700 transition"
+              aria-label="حذف الطبيب"
+            >
+              <fa-icon [icon]="faTrash"></fa-icon>
+            </button>
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td
+            colspan="8"
+            class="py-8 text-center text-sm text-slate-400"
+          >
+            لا يوجد أطباء لعرضهم
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+
+<app-modal 
+[isOpen]="openModel()"
+(closed)="openModel.set(false)"
+size="xl"
+>
+<form [formGroup]="form" (ngSubmit)="submit()" class="p-4 space-y-4">
+  <h2 class="text-xl font-semibold">{{ doctor() ? 'Update Doctor' : 'Create Doctor' }}</h2>
+
+  <div class="grid grid-cols-2 gap-4">
+    <div>
+      <label>Name</label>
+      <input formControlName="name" class="input" />
+
+    </div>
+
+    <div>
+      <label>Specialty</label>
+      <select formControlName="specialtyId" class="input">
+        <option [ngValue]="0" disabled>Select specialty</option>
+ 
+      </select>
+    </div>
+
+    <div>
+      <label>License Number</label>
+      <input formControlName="licenseNumber" class="input" />
+    </div>
+
+    <div>
+      <label>Phone Number</label>
+      <input formControlName="phoneNumber" class="input" />
+    </div>
+
+    <div>
+      <label>Consultation Fee</label>
+      <input type="number" formControlName="consultationFee" class="input" />
+    </div>
+
+    <div>
+      <label>Follow-up Fee</label>
+      <input type="number" formControlName="followupFee" class="input" />
+    </div>
+  </div>
+
+  <div>
+    <label>Bio</label>
+    <textarea formControlName="bio" rows="3" class="input"></textarea>
+  </div>
+
+  <div>
+    <div class="flex justify-between items-center">
+      <h3 class="font-medium">Schedules</h3>
+      <button type="button"  class="btn">+ Add</button>
+    </div>
+
+    <div formArrayName="schedules" class="space-y-2 mt-2">
+
+    </div>
+  </div>
+
+  <div class="flex justify-end gap-2">
+    <button type="button" class="btn">Cancel</button>
+    <button type="submit"  class="btn-primary">
+    </button>
+  </div>
+</form>
+</app-modal>

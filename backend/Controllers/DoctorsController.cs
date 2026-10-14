@@ -38,7 +38,7 @@ public class DoctorsController(IDoctorService doctorService) : ApiControllerBase
         return HandleResult(result);
     }
 
-    [HttpPatch("{id}")]
+    [HttpPut("{id}")]
     public async Task<IActionResult> UpdateDoctor(
         [FromRoute]  long id,
         [FromBody]  UpdateDoctorDto dto)
