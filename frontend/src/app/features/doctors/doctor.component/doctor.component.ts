@@ -7,6 +7,8 @@ import { ToastService } from '../../../core/services/toast.service';
 import { ModalComponent } from '../../../shared/components/modal/modal.component';
 import { CommonModule } from '@angular/common';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { SpecialtyService } from '../../../core/services/specialty.service';
+import { SpecialtyDto } from '../../../core/interfaces/specialty';
 
 @Component({
   imports: [CommonModule, FormsModule, FontAwesomeModule, ModalComponent, ReactiveFormsModule],
@@ -15,7 +17,9 @@ import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Va
   templateUrl: './doctor.component.html',
 })
 export class DoctorComponent implements OnInit {
-  constructor(private docterService: DoctorService, private toastr: ToastService, private fb: FormBuilder) {
+  constructor(private docterService: DoctorService,
+    private specialtyService: SpecialtyService,
+    private toastr: ToastService, private fb: FormBuilder) {
     this.form = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       specialtyId: [0, [Validators.required, Validators.min(1)]],
@@ -29,11 +33,14 @@ export class DoctorComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getDoctors()
+    this.getSpecialties()
   }
   faPen = faPen;
   faTrash = faTrash;
+  isEditMode = signal<boolean>(false)
   doctors$ = signal<DoctorInterface[]>([])
   openModel = signal<boolean>(false)
+  specialties = signal<SpecialtyDto[]>([]);
   days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   form: FormGroup;
   doctor = input<DoctorInterface | null>(null);
@@ -41,23 +48,44 @@ export class DoctorComponent implements OnInit {
 
 
   submit() {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
+    if(this.form.invalid){
       return;
     }
-    const payload = this.form.getRawValue();
-    const d = this.doctor();
-
-    const request$ = d
-      ? this.docterService.updateDoctor(d.id, payload as UpdateDoctor)
-      : this.docterService.createDoctor(payload);
-
-    request$.subscribe({
-      next: () => {
-      },
-      error: () => console.log()
+    this.docterService.createDoctor(this.form.value).subscribe({
+      next:(response)=>{
+        console.log(response)
+        this.doctors$.update(doctors => [response.data,...doctors])
       
+      }
+        ,
+      error:(response)=>console.log(response)
+      
+      
+    })
+    console.log(this.form.value);
+    
+  }
+  get schedules(): FormArray {
+    return this.form.get('schedules') as FormArray;
+  }
+
+  addSchedule(): void {
+    const scheduleForm = this.fb.group({
+      dayOfWeek: [null as string | null, Validators.required],
+      startTime: ['', Validators.required],
+      endTime: ['', Validators.required]
     });
+    this.schedules.push(scheduleForm);
+  }
+
+  removeSchedule(index: number): void {
+    this.schedules.removeAt(index);
+  }
+  getSpecialties() {
+    this.specialtyService.GetSpecialties().subscribe({
+      next: (response) => this.specialties.set(response.data),
+      error: (error) => console.log(error)
+    })
   }
   getDoctors() {
     this.docterService.getDoctors().subscribe({

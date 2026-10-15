@@ -1,14 +1,9 @@
-
-<button
-  
-class="px-4 py-2 rounded-xl text-xs font-bold bg-teal-600 hover:bg-teal-700 text-white"
-(click)="openModel.set(true)"
->أضافه دكتور</button>
+<button class="px-4 py-2 rounded-xl text-xs font-bold bg-teal-600 hover:bg-teal-700 text-white"
+  (click)="openModel.set(true);isEditMode.set(false)">أضافه دكتور</button>
 <div class="overflow-x-auto">
   <table class="w-full text-start text-xs sm:text-sm">
     <thead
-      class="bg-slate-50/80 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400 font-semibold border-b border-slate-200/80 dark:border-slate-800"
-    >
+      class="bg-slate-50/80 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400 font-semibold border-b border-slate-200/80 dark:border-slate-800">
       <tr>
         <th scope="col" class="py-3.5 px-4 w-10 text-center">#</th>
 
@@ -30,132 +25,289 @@ class="px-4 py-2 rounded-xl text-xs font-bold bg-teal-600 hover:bg-teal-700 text
 
     <tbody class="divide-y divide-slate-100 dark:divide-slate-800/60">
       @for (doctor of doctors$(); track doctor.id) {
-        <tr>
-          <td class="py-4 px-4 text-center text-sm text-slate-400">
-            {{ doctor.id }}
-          </td>
+      <tr>
+        <td class="py-4 px-4 text-center text-sm text-slate-400">
+          {{ doctor.id }}
+        </td>
 
-          <td class="py-4 px-4 text-center text-sm font-medium text-slate-700 dark:text-slate-200">
-            {{ doctor.name }}
-          </td>
+        <td class="py-4 px-4 text-center text-sm font-medium text-slate-700 dark:text-slate-200">
+          {{ doctor.name }}
+        </td>
 
-          <td class="py-4 px-4 text-center text-sm text-slate-500 dark:text-slate-400">
-            {{ doctor.specialty?.name ?? 'غير محدد' }}
-          </td>
+        <td class="py-4 px-4 text-center text-sm text-slate-500 dark:text-slate-400">
+          {{ doctor.specialty?.name ?? 'غير محدد' }}
+        </td>
 
-          <td class="py-4 px-4 text-center text-sm text-slate-500 dark:text-slate-400">
-            {{ doctor.phoneNumber }}
-          </td>
+        <td class="py-4 px-4 text-center text-sm text-slate-500 dark:text-slate-400">
+          {{ doctor.phoneNumber }}
+        </td>
 
-          <td class="py-4 px-4 text-center text-sm text-slate-500 dark:text-slate-400">
-            {{ doctor.licenseNumber }}
-          </td>
+        <td class="py-4 px-4 text-center text-sm text-slate-500 dark:text-slate-400">
+          {{ doctor.licenseNumber }}
+        </td>
 
-          <td class="py-4 px-4 text-center text-sm text-slate-500 dark:text-slate-400">
-            {{ doctor.consultationFee }}
-          </td>
+        <td class="py-4 px-4 text-center text-sm text-slate-500 dark:text-slate-400">
+          {{ doctor.consultationFee }}
+        </td>
 
-          <td class="py-4 px-4 text-center text-sm text-slate-500 dark:text-slate-400">
-            {{ doctor.followupFee }}
-          </td>
+        <td class="py-4 px-4 text-center text-sm text-slate-500 dark:text-slate-400">
+          {{ doctor.followupFee }}
+        </td>
 
-          <td class="py-4 px-4 text-center whitespace-nowrap">
-            <button
-              type="button"
-              class="text-teal-600 hover:text-teal-800 transition me-3"
-              aria-label="تعديل الطبيب"
-            >
-              <fa-icon [icon]="faPen"></fa-icon>
-            </button>
+        <td class="py-4 px-4 text-center whitespace-nowrap">
+          <button type="button" class="text-teal-600 hover:text-teal-800 transition me-3" aria-label="تعديل الطبيب">
+            <fa-icon [icon]="faPen"></fa-icon>
+          </button>
 
-            <button
-              type="button"
-              (click)="deleteDoctor(doctor.id)"
-              class="text-red-500 hover:text-red-700 transition"
-              aria-label="حذف الطبيب"
-            >
-              <fa-icon [icon]="faTrash"></fa-icon>
-            </button>
-          </td>
-        </tr>
+          <button type="button" (click)="deleteDoctor(doctor.id)" class="text-red-500 hover:text-red-700 transition"
+            aria-label="حذف الطبيب">
+            <fa-icon [icon]="faTrash"></fa-icon>
+          </button>
+        </td>
+      </tr>
       } @empty {
-        <tr>
-          <td
-            colspan="8"
-            class="py-8 text-center text-sm text-slate-400"
-          >
-            لا يوجد أطباء لعرضهم
-          </td>
-        </tr>
+      <tr>
+        <td colspan="8" class="py-8 text-center text-sm text-slate-400">
+          لا يوجد أطباء لعرضهم
+        </td>
+      </tr>
       }
     </tbody>
   </table>
 </div>
 
-<app-modal 
-[isOpen]="openModel()"
-(closed)="openModel.set(false)"
-size="xl"
->
-<form [formGroup]="form" (ngSubmit)="submit()" class="p-4 space-y-4">
-  <h2 class="text-xl font-semibold">{{ doctor() ? 'Update Doctor' : 'Create Doctor' }}</h2>
+<app-modal [isOpen]="openModel()" (closed)="openModel.set(false)" size="xl">
+  <form [formGroup]="form" (ngSubmit)="submit()" dir="rtl"
+    class="mx-auto max-w-5xl space-y-6 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 sm:p-8">
+    <!-- العنوان -->
+    <div class="border-b border-slate-200 pb-6">
+      <h2 class="text-2xl font-bold text-slate-800">
+        {{ doctor() ? 'تعديل بيانات الطبيب' : 'إضافة طبيب جديد' }}
+      </h2>
 
-  <div class="grid grid-cols-2 gap-4">
-    <div>
-      <label>Name</label>
-      <input formControlName="name" class="input" />
-
+      <p class="mt-2 text-sm text-slate-500">
+        إدارة البيانات الشخصية والمهنية للطبيب ومواعيد العمل.
+      </p>
     </div>
 
-    <div>
-      <label>Specialty</label>
-      <select formControlName="specialtyId" class="input">
-        <option [ngValue]="0" disabled>Select specialty</option>
- 
-      </select>
+    <!-- البيانات الأساسية -->
+    <section class="space-y-5">
+      <div>
+        <h3 class="font-semibold text-slate-800">البيانات الأساسية</h3>
+        <p class="mt-1 text-sm text-slate-500">
+          أدخل البيانات الشخصية والمهنية للطبيب.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <div class="space-y-2">
+          <label for="name" class="block text-sm font-medium text-slate-700">
+            اسم الطبيب
+          </label>
+          <input id="name" formControlName="name" placeholder="أدخل اسم الطبيب بالكامل"
+            class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10" />
+        </div>
+
+        <div class="space-y-2">
+          <label for="specialtyId" class="block text-sm font-medium text-slate-700">
+            التخصص
+          </label>
+          <select id="specialtyId" formControlName="specialtyId"
+            class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10">
+            <option [ngValue]="0" disabled>اختر التخصص</option>
+            @for( specialty of specialties(); track specialty.id){
+            <option [value]="specialty.id">{{specialty.name}}</option>
+            }
+          </select>
+        </div>
+
+        <div class="space-y-2">
+          <label for="licenseNumber" class="block text-sm font-medium text-slate-700">
+            رقم الترخيص
+          </label>
+          <input id="licenseNumber" formControlName="licenseNumber" placeholder="أدخل رقم الترخيص"
+            class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10" />
+        </div>
+
+        <div class="space-y-2">
+          <label for="phoneNumber" class="block text-sm font-medium text-slate-700">
+            رقم الهاتف
+          </label>
+          <input id="phoneNumber" type="tel" formControlName="phoneNumber" placeholder="أدخل رقم الهاتف"
+            class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10" />
+        </div>
+      </div>
+    </section>
+
+    <!-- الأسعار -->
+    <section class="space-y-5 border-t border-slate-200 pt-6">
+      <div>
+        <h3 class="font-semibold text-slate-800">أسعار الكشف</h3>
+        <p class="mt-1 text-sm text-slate-500">
+          حدد سعر الكشف وسعر إعادة الكشف.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <div class="space-y-2">
+          <label for="consultationFee" class="block text-sm font-medium text-slate-700">
+            سعر الكشف
+          </label>
+          <div class="relative">
+            <input id="consultationFee" type="number" min="0" formControlName="consultationFee" placeholder="0"
+              class="w-full rounded-xl border border-slate-300 px-4 py-3 pe-14 text-sm outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10" />
+            <span class="absolute inset-y-0 start-4 flex items-center text-xs text-slate-500">
+              جنيه
+            </span>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <label for="followupFee" class="block text-sm font-medium text-slate-700">
+            سعر إعادة الكشف
+          </label>
+          <div class="relative">
+            <input id="followupFee" type="number" min="0" formControlName="followupFee" placeholder="0"
+              class="w-full rounded-xl border border-slate-300 px-4 py-3 pe-14 text-sm outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10" />
+            <span class="absolute inset-y-0 start-4 flex items-center text-xs text-slate-500">
+              جنيه
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- النبذة -->
+    <section class="space-y-3 border-t border-slate-200 pt-6">
+      <h3 class="font-semibold text-slate-800">نبذة عن الطبيب</h3>
+      <p class="text-sm text-slate-500">
+        اكتب نبذة مختصرة عن خبرة الطبيب وتخصصه.
+      </p>
+
+      <textarea formControlName="bio" rows="4" placeholder="اكتب نبذة عن الطبيب وخبراته..."
+        class="w-full resize-y rounded-xl border border-slate-300 px-4 py-3 text-sm leading-6 outline-none placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"></textarea>
+    </section>
+
+    <!-- مواعيد العمل -->
+    <section class="space-y-4 border-t border-slate-200 pt-6">
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h3 class="font-semibold text-slate-800">مواعيد العمل</h3>
+          <p class="mt-1 text-sm text-slate-500">
+            حدد أيام العمل ومواعيد الحضور والانصراف.
+          </p>
+        </div>
+
+        <button type="button" (click)="addSchedule()"
+          class="inline-flex items-center justify-center gap-2 rounded-xl border border-blue-200 bg-blue-50 px-4 py-2.5 text-sm font-semibold text-blue-700 transition hover:bg-blue-100">
+          <span class="text-lg">+</span>
+          إضافة موعد
+        </button>
+      </div>
+
+      <div formArrayName="schedules" class="space-y-3">
+        <!-- حالة عدم وجود مواعيد -->
+        @if (schedules.length === 0) {
+        <div class="rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 py-10 text-center">
+          <div
+            class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-white text-slate-400 shadow-sm">
+            <span class="text-2xl">📅</span>
+          </div>
+
+          <p class="mt-3 text-sm font-medium text-slate-700">
+            لا توجد مواعيد عمل مضافة
+          </p>
+
+          <p class="mt-1 text-xs text-slate-500">
+            اضغط على «إضافة موعد» لإضافة أول موعد عمل.
+          </p>
+        </div>
+        }
+
+        <!-- المواعيد المضافة -->
+        @for (schedule of schedules.controls; track $index; let i = $index) {
+        <div [formGroupName]="i"
+          class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition hover:border-blue-200 sm:p-5">
+          <div class="mb-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <span
+                class="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50 text-sm font-bold text-blue-600">
+                {{ i + 1 }}
+              </span>
+
+              <div>
+                <h4 class="text-sm font-semibold text-slate-800">
+                  موعد العمل {{ i + 1 }}
+                </h4>
+                <p class="mt-1 text-xs text-slate-500">
+                  حدد اليوم وفترة العمل
+                </p>
+              </div>
+            </div>
+
+            <button type="button" (click)="removeSchedule(i)"
+              class="rounded-lg px-3 py-2 text-sm font-medium text-red-600 transition hover:bg-red-50"
+              aria-label="حذف الموعد">
+              حذف
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <!-- اليوم -->
+            <div class="space-y-2">
+              <label class="block text-sm font-medium text-slate-700">
+                يوم العمل
+              </label>
+
+              <select formControlName="dayOfWeek"
+                class="w-full rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10">
+                <option value="" disabled>اختر اليوم</option>
+                <option [ngValue]="days[0]">الأحد</option>
+                <option [ngValue]="days[1]">الاثنين</option>
+                <option [ngValue]="days[2]">الثلاثاء</option>
+                <option [ngValue]="days[3]">الأربعاء</option>
+                <option [ngValue]="days[4]">الخميس</option>
+                <option [ngValue]="days[5]">الجمعة</option>
+                <option [ngValue]="days[6]">السبت</option>
+              </select> 
+            </div>
+
+            <!-- بداية العمل -->
+            <div class="space-y-2">
+              <label class="block text-sm font-medium text-slate-700">
+                من الساعة
+              </label>
+
+              <input type="time" formControlName="startTime"
+                class="w-full rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10" />
+            </div>
+
+            <!-- نهاية العمل -->
+            <div class="space-y-2">
+              <label class="block text-sm font-medium text-slate-700">
+                إلى الساعة
+              </label>
+
+              <input type="time" formControlName="endTime"
+                class="w-full rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10" />
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+    </section>
+
+    <!-- الأزرار -->
+    <div class="flex flex-col-reverse gap-3 border-t border-slate-200 pt-6 sm:flex-row">
+      <button type="button"
+        class="rounded-xl border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+        إلغاء
+      </button>
+
+      <button type="submit" [disabled]="form.invalid"
+        class="rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:ring-4 focus:ring-blue-500/20 disabled:cursor-not-allowed disabled:opacity-50">
+        {{ doctor() ? 'حفظ التعديلات' : 'إضافة الطبيب' }}
+      </button>
     </div>
-
-    <div>
-      <label>License Number</label>
-      <input formControlName="licenseNumber" class="input" />
-    </div>
-
-    <div>
-      <label>Phone Number</label>
-      <input formControlName="phoneNumber" class="input" />
-    </div>
-
-    <div>
-      <label>Consultation Fee</label>
-      <input type="number" formControlName="consultationFee" class="input" />
-    </div>
-
-    <div>
-      <label>Follow-up Fee</label>
-      <input type="number" formControlName="followupFee" class="input" />
-    </div>
-  </div>
-
-  <div>
-    <label>Bio</label>
-    <textarea formControlName="bio" rows="3" class="input"></textarea>
-  </div>
-
-  <div>
-    <div class="flex justify-between items-center">
-      <h3 class="font-medium">Schedules</h3>
-      <button type="button"  class="btn">+ Add</button>
-    </div>
-
-    <div formArrayName="schedules" class="space-y-2 mt-2">
-
-    </div>
-  </div>
-
-  <div class="flex justify-end gap-2">
-    <button type="button" class="btn">Cancel</button>
-    <button type="submit"  class="btn-primary">
-    </button>
-  </div>
-</form>
+  </form>
 </app-modal>

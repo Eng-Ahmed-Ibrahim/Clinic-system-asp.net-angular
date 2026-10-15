@@ -34,6 +34,7 @@ export class PatientsPageComponent implements OnInit {
   faPen = faPen;
   patientForm: FormGroup;
 
+
   constructor(private patientService: PatientService, private fb: FormBuilder, private toastService: ToastService) {
     this.patientForm = this.fb.group({
       nationalId: ['', [Validators.required, Validators.pattern(/^[0-9]{14}$/)]],
@@ -57,6 +58,7 @@ export class PatientsPageComponent implements OnInit {
   ngOnInit(): void {
     this.getPatients()
   }
+  
   getPatients() {
     this.patientService.getPatients().subscribe({
       next: (response) => {

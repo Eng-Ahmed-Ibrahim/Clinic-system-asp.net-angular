@@ -20,7 +20,7 @@ export class DoctorService {
         return this.httpClient.put<ApiResponse<UpdateDoctor>>(`http://localhost:5097/api/v1/Doctors/${id}`,form)
     }
     
-    createDoctor(form: DoctorInterface): Observable<ApiResponse<UpdateDoctor>> {
-        return this.httpClient.post<ApiResponse<UpdateDoctor>>(`http://localhost:5097/api/v1/Doctors`,form)
+    createDoctor(form: DoctorInterface): Observable<ApiResponse<DoctorInterface>> {
+        return this.httpClient.post<ApiResponse<DoctorInterface>>(`http://localhost:5097/api/v1/Doctors`,form)
     }
 }

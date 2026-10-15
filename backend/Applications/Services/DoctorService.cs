@@ -17,7 +17,11 @@ public class DoctorService(AppDbContext appDbContext, IMapper mapper) : IDoctorS
         var doctor = mapper.Map<Doctor>(createDoctorDto);
         await appDbContext.Doctors.AddAsync(doctor);
         await appDbContext.SaveChangesAsync();
-        var response = mapper.Map<DoctorDto>(doctor);
+        var doctorWithSpecialty = await appDbContext.Doctors
+            .Include(d => d.Specialty)
+            .FirstOrDefaultAsync(d => d.Id == doctor.Id);
+
+        var response = mapper.Map<DoctorDto>(doctorWithSpecialty);
         Console.WriteLine($"Response {response}");
         return Result<DoctorDto>.Success(response);
     }
@@ -26,6 +30,7 @@ public class DoctorService(AppDbContext appDbContext, IMapper mapper) : IDoctorS
     {
         var doctors = await appDbContext.Doctors
             .AsNoTracking()
+            .OrderByDescending(d => d.Id)
             .ProjectTo<DoctorDto>(mapper.ConfigurationProvider)
             .ToArrayAsync();
 
